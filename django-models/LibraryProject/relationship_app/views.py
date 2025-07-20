@@ -40,3 +40,10 @@ def register_view(request):
 def logout_view(request):
     logout(request)
     return render(request, 'relationship_app/logout.html')
+
+def register(request):
+    form = UserCreationForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        user = form.save()
+        return redirect('login')
+    return render(request, 'relationship_app/register.html', {'form': form})
