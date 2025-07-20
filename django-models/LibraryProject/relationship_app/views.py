@@ -8,6 +8,8 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import user_passes_test
 from .models import UserProfile
+from django.contrib.auth.decorators import permission_required
+
 
 from .models import Library  # ✅ Required exact line
 from .models import Book     # ✅ Separated for clarity
@@ -77,3 +79,15 @@ def register_view(request):
     else:
         form = UserCreationForm()
     return render(request, 'relationship_app/register.html', {'form': form})
+
+@permission_required('relationship_app.can_add_book')
+def add_book(request):
+    # your add book logic here
+
+@permission_required('relationship_app.can_change_book')
+def edit_book(request, book_id):
+    # your edit book logic here
+
+@permission_required('relationship_app.can_delete_book')
+def delete_book(request, book_id):
+    # your delete book logic here
