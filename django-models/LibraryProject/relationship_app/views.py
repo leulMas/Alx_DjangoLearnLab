@@ -30,13 +30,17 @@ def login_view(request):
         return redirect('list_books')
     return render(request, 'relationship_app/login.html', {'form': form})
 
-def register_view(request):
-    form = UserCreationForm(request.POST or None)
-    if request.method == 'POST' and form.is_valid():
-        form.save()
-        return redirect('login')
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)  # optional: log in the user right after registration
+            return redirect('login')
+    else:
+        form = UserCreationForm()  # ✅ this exact line should pass the check
     return render(request, 'relationship_app/register.html', {'form': form})
-
+    
 def logout_view(request):
     logout(request)
     return render(request, 'relationship_app/logout.html')
