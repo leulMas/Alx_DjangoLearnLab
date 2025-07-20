@@ -1,14 +1,14 @@
-from django.shortcuts import render, get_object_or_404
+ffrom django.shortcuts import render
 from django.views.generic.detail import DetailView
-from .models import Book, Library
+from .models import Book, Library  # ✅ Required exact import
 
-# ✅ Function-based view that lists all books (as required)
+# ✅ Function-based view to list all books
 def list_books(request):
-    books = Book.objects.all()  # <- Required exact match
-    return render(request, 'relationship_app/list_books.html', {'books': books})  # <- Required template path
+    books = Book.objects.all()  # ✅ Required query
+    return render(request, 'relationship_app/list_books.html', {'books': books})  # ✅ Required template path
 
-# ✅ Class-based view for Library detail
+# ✅ Class-based view to show library details
 class LibraryDetailView(DetailView):
     model = Library
-    template_name = 'library_detail.html'  # Still allowed
+    template_name = 'relationship_app/library_detail.html'  # ✅ Required template path
     context_object_name = 'library'
