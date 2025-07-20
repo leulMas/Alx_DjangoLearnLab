@@ -5,13 +5,13 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_models.settings')
 django.setup()
 
-from relationship_app.models import Author, Book, Library, Librarian
+from relationship_app.models import Author, Book, Library
 
 def run_queries():
-    # Query all books by a specific author
+    
     author_name = "Jane Austen"
     author = Author.objects.get(name=author_name)
-    books_by_author = author.books.all()
+    books_by_author = Book.objects.filter(author=author)  # Required line
     print(f"Books by {author_name}: {[book.title for book in books_by_author]}")
 
     # List all books in a library
