@@ -2,7 +2,9 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 from .models import Book
-from .forms import BookForm  # assume this form exists
+from .forms import BookForm
+from .forms import ExampleForm
+
 
 def home(request):
     return HttpResponse("Hello! Welcome to the custom user model app.")
