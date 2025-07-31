@@ -136,3 +136,33 @@ SESSION_COOKIE_SECURE = True  # Requires HTTPS
 
 # Optional: only allow specific hosts
 ALLOWED_HOSTS = ['yourdomain.com', 'localhost', '127.0.0.1']  # update as needed
+
+# ========================
+# HTTPS & SECURITY HEADERS
+# ========================
+
+# Force redirect from HTTP to HTTPS
+SECURE_SSL_REDIRECT = True
+
+# Enforce HTTP Strict Transport Security (HSTS)
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+# Only send cookies over HTTPS
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+# Secure browser behavior
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+
+# TIP: Only apply these in production
+if DEBUG:
+    SECURE_SSL_REDIRECT = False
+    SECURE_HSTS_SECONDS = 0
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    SECURE_HSTS_PRELOAD = False
+    SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SECURE = False
