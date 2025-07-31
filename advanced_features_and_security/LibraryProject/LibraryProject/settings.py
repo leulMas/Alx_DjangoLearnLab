@@ -123,3 +123,16 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DEBUG = False  # Make sure to set this to False in production
+
+# Add this to the bottom of your settings.py
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+CSRF_COOKIE_SECURE = True  # Requires HTTPS
+SESSION_COOKIE_SECURE = True  # Requires HTTPS
+
+# Optional: only allow specific hosts
+ALLOWED_HOSTS = ['yourdomain.com', 'localhost', '127.0.0.1']  # update as needed
