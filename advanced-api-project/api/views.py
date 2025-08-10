@@ -17,10 +17,10 @@ class BookListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
-    # Add search filter backend
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['title', 'author']  # Fields that can be searched
-
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['title', 'author__name']   # to search author name use __name because author is a FK
+    ordering_fields = ['title', 'publication_year']  # fields allowed for ordering
+    ordering = ['title']  # default ordering
 # -----------------------------
 # Retrieve one book by ID
 # -----------------------------
