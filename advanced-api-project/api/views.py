@@ -1,6 +1,9 @@
 from rest_framework import viewsets
 from .models import Author, Book
 from .serializers import AuthorSerializer, BookSerializer
+from django_filters import rest_framework as filters
+from rest_framework import generics
+
 
 class AuthorViewSet(viewsets.ModelViewSet):
     queryset = Author.objects.all()
@@ -11,15 +14,12 @@ class BookViewSet(viewsets.ModelViewSet):
     serializer_class = BookSerializer
     
 class BookListView(generics.ListAPIView):
-    """
-    GET /books/
-    Retrieves a list of all books.
-    Accessible to both authenticated and unauthenticated users.
-    """
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [permissions.AllowAny]  # read-only for anyone
 
+    # Add search filter backend
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title', 'author']  # Fields that can be searched
 
 # -----------------------------
 # Retrieve one book by ID
