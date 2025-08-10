@@ -9,7 +9,7 @@ from rest_framework.filters import OrderingFilter, SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
 
-lass BookListView(generics.ListAPIView):
+class BookListView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
