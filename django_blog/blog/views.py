@@ -6,6 +6,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm
 from django.contrib import messages
 
+def home_view(request):
+   return render(request, "blog/home.html")
+   
 # Registration view
 def register_view(request):
     if request.method == "POST":
