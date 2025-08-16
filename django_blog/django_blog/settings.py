@@ -9,8 +9,11 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,16 +44,19 @@ INSTALLED_APPS = [
 ]
 
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]  # for project-level static files
-STATIC_ROOT = BASE_DIR / "staticfiles
+# Static files
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]  # optional, for project-level assets
+STATIC_ROOT = BASE_DIR / "staticfiles"    # for collectstatic (prod)
 
+# Auth redirects
 LOGIN_REDIRECT_URL = "blog:profile"
 LOGOUT_REDIRECT_URL = "blog:login"
 LOGIN_URL = "blog:login"
 
-from django.contrib.messages import constants as messages
-MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
+# Media (for avatars, optional)
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 
 MIDDLEWARE = [

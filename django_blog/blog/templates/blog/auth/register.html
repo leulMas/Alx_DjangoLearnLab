@@ -1,23 +1,17 @@
+{% extends "blog/base.html" %}
 {% load static %}
+
+{% block title %}Register{% endblock %}
+{% block head %}
 <link rel="stylesheet" href="{% static 'blog/css/register.css' %}">
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" href="{% static 'blog/css/login.css' %}">
-</head>
-<body>
-    <div class="login-container">
-        <img src="{% static 'blog/images/logo.png' %}" alt="Site Logo">
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Login</button>
-            
+{% endblock %}
 
-        </form>
-    </div>
-</body>
-</html>
-
+{% block content %}
+<h2>Create an account</h2>
+<form method="post" novalidate>
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Sign up</button>
+</form>
+<p>Already have an account? <a href="{% url 'blog:login' %}">Log in</a></p>
+{% endblock %}
