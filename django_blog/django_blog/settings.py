@@ -40,6 +40,11 @@ INSTALLED_APPS = [
     'blog',
 ]
 
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]  # for project-level static files
+STATIC_ROOT = BASE_DIR / "staticfiles
+
 LOGIN_REDIRECT_URL = "blog:profile"
 LOGOUT_REDIRECT_URL = "blog:login"
 LOGIN_URL = "blog:login"
