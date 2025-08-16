@@ -1,5 +1,6 @@
 {% extends "blog/base.html" %}
 {% load static %}
+<link rel="stylesheet" href="{% static 'blog/css/login.css' %}">
 
 {% block title %}Login{% endblock %}
 {% block head %}
@@ -15,3 +16,9 @@
 </form>
 <p>No account? <a href="{% url 'blog:register' %}">Register</a></p>
 {% endblock %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
