@@ -40,6 +40,14 @@ INSTALLED_APPS = [
     'blog',
 ]
 
+LOGIN_REDIRECT_URL = "blog:profile"
+LOGOUT_REDIRECT_URL = "blog:login"
+LOGIN_URL = "blog:login"
+
+from django.contrib.messages import constants as messages
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
