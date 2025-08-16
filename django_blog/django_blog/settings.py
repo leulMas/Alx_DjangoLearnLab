@@ -72,16 +72,14 @@ ROOT_URLCONF = 'django_blog.urls'
 STATIC_URL = '/static/'
 # django_blog/settings.py
 
-import os
-from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates"],  # Make sure this line is correct
-        'APP_DIRS': True,
+        'DIRS': [BASE_DIR / "templates"],  # optional if using app templates
+        'APP_DIRS': True,                   # must be True to detect app templates
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -92,7 +90,6 @@ TEMPLATES = [
         },
     },
 ]
-
 
 WSGI_APPLICATION = 'django_blog.wsgi.application'
 
