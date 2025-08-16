@@ -1,11 +1,10 @@
+# blog/urls.py
 from django.urls import path
-from .views import BlogLoginView, BlogLogoutView, register, profile
-
-app_name = "blog"
+from . import views
 
 urlpatterns = [
-    path("login/",  BlogLoginView.as_view(),  name="login"),
-    path("logout/", BlogLogoutView.as_view(), name="logout"),
-    path("register/", register, name="register"),
-    path("profile/", profile, name="profile"),
+    path("register/", views.register_view, name="register"),
+    path("login/", views.login_view, name="login"),
+    path("logout/", views.logout_view, name="logout"),
+    path("profile/", views.profile_view, name="profile"),
 ]

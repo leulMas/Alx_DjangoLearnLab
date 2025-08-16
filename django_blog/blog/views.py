@@ -1,23 +1,55 @@
-from django.contrib.auth.decorators import login_required
+# blog/views.py
 from django.shortcuts import render, redirect
-from .forms import UserUpdateForm, ProfileForm
-from .models import Profile
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from .forms import CustomUserCreationForm
 from django.contrib import messages
 
-@login_required
-def profile(request):
-    Profile.objects.get_or_create(user=request.user)
+# Registration view
+def register_view(request):
     if request.method == "POST":
-        uform = UserUpdateForm(request.POST, instance=request.user)
-        pform = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
-        if uform.is_valid() and pform.is_valid():
-            uform.save()
-            pform.save()
-            messages.success(request, "Profile updated.")
-            return redirect("blog:profile")
-        messages.error(request, "Please fix the errors below.")
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, "Registration successful.")
+            return redirect("profile")
+        else:
+            messages.error(request, "Registration failed. Please check the errors.")
     else:
-        uform = UserUpdateForm(instance=request.user)
-        pform = ProfileForm(instance=request.user.profile)
+        form = CustomUserCreationForm()
+    return render(request, "blog/register.html", {"form": form})
 
-    return render(request, "blog/auth/profile.html", {"uform": uform, "pform": pform})
+# Login view
+def login_view(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            messages.success(request, f"Welcome {user.username}!")
+            return redirect("profile")
+        else:
+            messages.error(request, "Login failed. Check username or password.")
+    else:
+        form = AuthenticationForm()
+    return render(request, "blog/login.html", {"form": form})
+
+# Logout view
+def logout_view(request):
+    logout(request)
+    messages.info(request, "You have successfully logged out.")
+    return redirect("login")
+
+# Profile view
+@login_required
+def profile_view(request):
+    if request.method == "POST":
+        user = request.user
+        email = request.POST.get("email")
+        if email:
+            user.email = email
+            user.save()
+            messages.success(request, "Profile updated successfully.")
+    return render(request, "blog/profile.html")

@@ -1,6 +1,12 @@
-<form method="post" enctype="multipart/form-data">
+<!-- blog/templates/blog/profile.html -->
+{% extends 'blog/base.html' %}
+{% block content %}
+<h2>Profile</h2>
+<form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Submit</button>
+    <label>Username: {{ request.user.username }}</label><br>
+    <label>Email: <input type="email" name="email" value="{{ request.user.email }}"></label><br>
+    <button type="submit">Update Profile</button>
 </form>
-
+<a href="{% url 'logout' %}">Logout</a>
+{% endblock %}

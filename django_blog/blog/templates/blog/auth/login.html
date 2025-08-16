@@ -1,24 +1,11 @@
-{% extends "blog/base.html" %}
-{% load static %}
-<link rel="stylesheet" href="{% static 'blog/css/login.css' %}">
-
-{% block title %}Login{% endblock %}
-{% block head %}
-<link rel="stylesheet" href="{% static 'blog/css/login.css' %}">
-{% endblock %}
-
+<!-- blog/templates/blog/login.html -->
+{% extends 'blog/base.html' %}
 {% block content %}
 <h2>Login</h2>
-<form method="post" novalidate>
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Log in</button>
-</form>
-<p>No account? <a href="{% url 'blog:register' %}">Register</a></p>
-{% endblock %}
-
-<form method="post" enctype="multipart/form-data">
+<form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Submit</button>
+    <button type="submit">Login</button>
 </form>
+<a href="{% url 'register' %}">Don't have an account? Register</a>
+{% endblock %}
