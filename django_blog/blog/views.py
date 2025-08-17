@@ -98,3 +98,5 @@ class CommentDeleteView(DeleteView):
     model = Comment
     template_name = 'comments/comment_confirm_delete.html'
     success_url = '/comments/'
+
+
