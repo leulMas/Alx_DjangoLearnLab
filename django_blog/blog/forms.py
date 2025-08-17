@@ -41,5 +41,6 @@ class PostForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Add tags separated by commas',
             }),
+            TagWidget()
         }
 
