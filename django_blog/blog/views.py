@@ -10,6 +10,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from .forms import CustomUserCreationForm
 from django.contrib import messages
 from django.shortcuts import render
+from .models import Comment
+
 
 
 
@@ -64,3 +66,19 @@ def profile_view(request):
             messages.success(request, "Profile updated successfully.")
     return render(request, "blog/profile.html")
     
+class CommentCreateView(CreateView):
+    model = Comment
+    fields = ['content']
+    template_name = 'comments/comment_form.html'
+    success_url = '/comments/'
+    
+class CommentUpdateView(UpdateView):
+    model = Comment
+    fields = ['content']
+    template_name = 'comments/comment_form.html'
+    success_url = '/comments/'
+
+class CommentDeleteView(DeleteView):
+    model = Comment
+    template_name = 'comments/comment_confirm_delete.html'
+    success_url = '/comments/'
