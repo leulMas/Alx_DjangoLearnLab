@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from .views import PostListView, PostDetailView,PostCreateView, PostUpdateView, PostDeleteView
 
+
 urlpatterns = [
     # Existing function-based views
     path("", views.home_view, name="home"),
@@ -17,4 +18,5 @@ urlpatterns = [
     path['posts/<int:pk>/edit/', PostUpdateView.as_view(), name='post-update'],  # Update a post
     path['posts/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'], # Delete a post
     path["post/<int:pk>/delete/", "post/<int:pk>/update/", "post/new/"]
+    path["comment/<int:pk>/update/", "post/<int:pk>/comments/new/", "comment/<int:pk>/delete/"]
 ]
