@@ -66,6 +66,22 @@ def profile_view(request):
             messages.success(request, "Profile updated successfully.")
     return render(request, "blog/profile.html")
     
+    
+def post_search(request):
+    query = request.GET.get('q', '')  # get search query from URL ?q=...
+    results = Post.objects.none()     # default empty queryset
+
+    if query:
+        results = Post.objects.filter(
+            title__icontains=query
+        ) | Post.objects.filter(
+            content__icontains=query
+        ) | Post.objects.filter(
+            tags__name__icontains=query
+        ).distinct()
+
+    return render(request, 'blog/post_search.html', {'results': results, 'query': query})
+    
 class CommentCreateView(CreateView):
     model = Comment
     fields = ['content']
