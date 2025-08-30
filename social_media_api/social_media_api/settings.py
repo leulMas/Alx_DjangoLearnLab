@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "rest_framework",
     "accounts",
+    "posts",
+    "django_filters",
 
 ]
 
@@ -53,7 +55,14 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
+    
 }
+
+REST_FRAMEWORK["DEFAULT_FILTER_BACKENDS"] = (
+    "django_filters.rest_framework.DjangoFilterBackend",
+    "rest_framework.filters.SearchFilter",
+    "rest_framework.filters.OrderingFilter",
+)
 
 AUTH_USER_MODEL = "accounts.User"
 
