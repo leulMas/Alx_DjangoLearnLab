@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
+PORT = int(os.getenv("PORT", 8000))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ X_FRAME_OPTIONS = "DENY"
 SECURE_SSL_REDIRECT = True
 
 SECURE_CONTENT_TYPE_NOSNIFF = True
-SESSION_COOKIE_SECURE = True       
+SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
 # Quick-start development settings - unsuitable for production
