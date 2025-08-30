@@ -8,7 +8,7 @@ router.register(r"posts", PostViewSet, basename="post")
 router.register(r"comments", CommentViewSet, basename="comment")
 router.register(r"posts", PostViewSet)
 router.register(r"comments", CommentViewSet)
-router.register(r"feed", FeedViewSet, basename="feed") 
+router.register(r"feed/", FeedViewSet, basename="feed/") 
 
 
 urlpatterns = [
