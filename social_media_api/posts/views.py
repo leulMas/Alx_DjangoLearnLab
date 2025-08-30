@@ -4,7 +4,6 @@ from .serializers import PostSerializer, CommentSerializer
 
 
 class PostViewSet(viewsets.ModelViewSet):
-    # ✅ Explicit queryset so "Post.objects.all()" is present
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -14,7 +13,6 @@ class PostViewSet(viewsets.ModelViewSet):
 
 
 class CommentViewSet(viewsets.ModelViewSet):
-    # ✅ Explicit queryset so "Comment.objects.all()" is present
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -22,6 +20,17 @@ class CommentViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
+    def list(self, request):
+        user = request.user
 
+        following_users = user.following.all()
+
+        posts = Post.objects.filter(author__in=following_users).order_by("-created_at")
+
+        # Paginate results
+        paginator = self.pagination_class()
+        page = paginator.paginate_queryset(posts, request)
+        serializer = PostListSerializer(page, many=True)
+        return paginator.get_paginated_response(serializer.data)
 
 
