@@ -4,6 +4,7 @@ from rest_framework import serializers
 
 User = get_user_model()
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -19,7 +20,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ["username", "email", "password"]
 
     def create(self, validated_data):
-        # ✅ use create_user so password is hashed properly
+        # Use create_user to ensure password is hashed
         user = User.objects.create_user(
             username=validated_data["username"],
             email=validated_data.get("email", ""),
