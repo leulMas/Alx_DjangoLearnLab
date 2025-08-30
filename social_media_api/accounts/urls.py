@@ -8,6 +8,7 @@ router.register(r"users", UserViewSet, basename="user")
 
 urlpatterns = [
     path("register/", RegisterView.as_view(), name="register"),
+    path('login/', TokenObtainPairView.as_view(), name='login'),
     path("profile/", ProfileView.as_view(), name="profile"),
     path("follow/<str:username>/", FollowView.as_view(), name="follow"),
     path("", include(router.urls)),
