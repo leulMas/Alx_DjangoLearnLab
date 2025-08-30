@@ -5,21 +5,11 @@ from rest_framework import serializers
 User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=False)
-
     class Meta:
         model = User
-        fields = ["id", "username", "email", "password", "bio", "profile_picture", "followers", "following"]
+        fields = ["id", "username", "email", "bio", "profile_picture", "followers", "following"]
         read_only_fields = ["id", "followers", "following"]
 
-    def create(self, validated_data):
-        password = validated_data.pop("password", None)
-        user = User(**validated_data)
-        if password:
-            validate_password(password)
-            user.set_password(password)
-        user.save()
-        return user
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -29,11 +19,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ["username", "email", "password"]
 
     def create(self, validated_data):
-        user = User(
+        # ✅ use create_user so password is hashed properly
+        user = User.objects.create_user(
             username=validated_data["username"],
             email=validated_data.get("email", ""),
+            password=validated_data["password"],
         )
-        user.set_password(validated_data["password"])
-        user.save()
         return user
-
