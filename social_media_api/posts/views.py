@@ -34,3 +34,41 @@ class CommentViewSet(viewsets.ModelViewSet):
         return paginator.get_paginated_response(serializer.data)
 
 
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def like_post(request, pk):
+    try:
+        post = Post.objects.get(pk=pk)
+    except Post.DoesNotExist:
+        return Response({"detail": "Post not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    like, created = Like.objects.get_or_create(user=request.user, post=post)
+    if not created:
+        return Response({"detail": "Already liked"}, status=status.HTTP_400_BAD_REQUEST)
+
+    # create notification
+    Notification.objects.create(
+        recipient=post.author,
+        actor=request.user,
+        verb="liked your post",
+        content_type=ContentType.objects.get_for_model(post),
+        object_id=post.id
+    )
+
+    return Response({"detail": "Post liked"}, status=status.HTTP_201_CREATED)
+
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def unlike_post(request, pk):
+    try:
+        post = Post.objects.get(pk=pk)
+    except Post.DoesNotExist:
+        return Response({"detail": "Post not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    deleted, _ = Like.objects.filter(user=request.user, post=post).delete()
+    if not deleted:
+        return Response({"detail": "Like not found"}, status=status.HTTP_400_BAD_REQUEST)
+
+    return Response({"detail": "Post unliked"}, status=status.HTTP_200_OK)
+
