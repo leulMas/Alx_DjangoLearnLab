@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from rest_framework.authtoken.models import Token   # ✅ requirement
+from rest_framework.authtoken.models import Token   # for token auth
 
 User = get_user_model()
 
@@ -13,19 +13,19 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)   # ✅ requirement
+    password = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
         fields = ["username", "email", "password"]
 
     def create(self, validated_data):
-        # ✅ requirement: use create_user
+        # create_user() ensures password hashing
         user = get_user_model().objects.create_user(
             username=validated_data["username"],
             email=validated_data.get("email", ""),
             password=validated_data["password"],
         )
-        # ✅ requirement: create Token for the new user
+        # create a token for the new user
         Token.objects.create(user=user)
         return user
