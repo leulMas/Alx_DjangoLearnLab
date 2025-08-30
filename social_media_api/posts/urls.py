@@ -13,7 +13,5 @@ router.register(r"feed", FeedViewSet, basename="feed""
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("follow/<int:user_id>/", views.follow_user, name="follow-user"),
-    path("unfollow/<int:user_id>/", views.unfollow_user, name="unfollow-user"),
 ]
 
