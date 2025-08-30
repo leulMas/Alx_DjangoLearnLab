@@ -42,10 +42,11 @@ INSTALLED_APPS = [
     # Third-party
     "rest_framework",
     "django_filters",
-
+    
     # Local apps
     "accounts",
     "posts",
+    "notifications"
 ]
 
 AUTH_USER_MODEL = "accounts.User"
