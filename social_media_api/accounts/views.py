@@ -9,6 +9,8 @@ from .serializers import PostListSerializer
 from rest_framework.pagination import PageNumberPagination
 
 User = get_user_model()
+CustomUser = get_user_model()
+
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -40,3 +42,29 @@ class FeedViewSet(viewsets.ViewSet):
         page = paginator.paginate_queryset(posts, request)
         serializer = PostListSerializer(page, many=True)
         return paginator.get_paginated_response(serializer.data)
+        
+class RegisterView(generics.GenericAPIView):
+    serializer_class = RegisterSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({
+            "user": UserSerializer(user).data,
+            "token": token.key
+        })
+
+
+# Example view using CustomUser.objects.all()
+class UserListView(generics.GenericAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        # ✅ explicit call to CustomUser.objects.all()
+        users = CustomUser.objects.all()
+        serializer = self.get_serializer(users, many=True)
+        return Response(serializer.data)
